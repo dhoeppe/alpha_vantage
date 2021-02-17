@@ -1,10 +1,14 @@
 import inspect
 import os
+import random
 import sys
+import time
 from functools import wraps
+from json.decoder import JSONDecodeError
+
+from helpers.baseurlsession import BaseURLSession
 
 # Pandas became an optional dependency, but we still want to track it
-from helpers.baseurlsession import BaseURLSession
 
 try:
     import pandas
@@ -24,11 +28,15 @@ class AlphaVantage(object):
     _ALPHA_VANTAGE_DIGITAL_CURRENCY_LIST = \
         "https://www.alphavantage.co/digital_currency_list/"
     
+    _RATE_LIMIT_SUBSTRING = 'https://www.alphavantage.co/premium/'
+    _PREMIUM_RATE_LIMIT_SUBSTRING = 'premium@alphavantage.co'
+    
     _RAPIDAPI_URL = "https://alpha-vantage.p.rapidapi.com/query"
     
     def __init__(self, key: str = None, output_format: str = 'json',
                  treat_info_as_error: bool = True, indexing_type: str = 'date', proxy: dict = None,
-                 rapidapi: bool = False):
+                 rapidapi: bool = False, rate_limit_maximum_wait: int = 64,
+                 rate_limit_maximum_tries=10):
         """Initialize the class.
 
         Keyword Arguments:
@@ -44,6 +52,10 @@ class AlphaVantage(object):
             the URL of the proxy.
             rapidapi: Boolean describing whether or not the API key is
             through the RapidAPI platform or not.
+            rate_limit_maximum_wait: Integer indicating the maximum time in seconds to wait
+            before an API call is cancelled because of rate limiting. Defaults to 64 seconds.
+            rate_limit_maximum_tries: Integer indicating the maximum amount of tries if a
+            rate limit is encountered. Defaults to 10 tries. -1 disables.
         """
         if key is None:
             key = os.getenv('ALPHAVANTAGE_API_KEY')
@@ -81,6 +93,8 @@ class AlphaVantage(object):
         # variable will be overridden by those functions not needing it.
         self._append_type = True
         self.indexing_type = indexing_type.lower()
+        self.rate_limit_maximum_wait = rate_limit_maximum_wait
+        self.rate_limit_maximum_tries = rate_limit_maximum_tries
     
     def close(self):
         """Closes the underlying session."""
@@ -152,7 +166,7 @@ class AlphaVantage(object):
                 
                 params['datatype'] = override
         
-        response = self.session.get('', params=params)
+        response = self._rate_limit_handled_request(params)
         
         # Handle response
         if 'json' == output_format or \
@@ -184,6 +198,47 @@ class AlphaVantage(object):
         if not csv_response:
             raise ValueError('Error getting data from the API, no return was given.')
         return csv_response
+    
+    def _rate_limit_handled_request(self, params):
+        """Checks if the response is a JSON response and contains rate-limiting related
+        information.
+        
+        Performs exponential back-off with added jitter up to a maximum wait time that is
+        equal to the rate_limit_maximum_wait parameter of class.
+        """
+        response = self.session.get('', params=params)
+        try:
+            json_response = response.json()
+            
+            # Rate limit times
+            jitter = random.randint(0, 32)
+            basic = 2
+            tries = 0
+            
+            while ('Note' in
+                   json_response and
+                   AlphaVantage._RATE_LIMIT_SUBSTRING in
+                   json_response['Note']) or ('Information' in
+                                              json_response and
+                                              AlphaVantage._PREMIUM_RATE_LIMIT_SUBSTRING in
+                                              json_response['Information']):
+                # Retry limit reached
+                if tries == self.rate_limit_maximum_tries:
+                    raise RuntimeError(
+                        'Maximum amount of retries reached while handling rate limit. Aborting.')
+                
+                # Rate limit reached
+                tries += 1
+                time.sleep(basic + jitter)
+                if basic < self.rate_limit_maximum_wait:
+                    basic *= 2
+                
+                # Try again
+                json_response = self.session.get('', params=params).json()
+            return json_response
+        
+        except JSONDecodeError:
+            return response
     
     class call_api_on_func(object):
         """Decorator for forming the API call with the arguments of the
