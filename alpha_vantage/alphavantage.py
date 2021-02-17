@@ -172,7 +172,7 @@ class AlphaVantage(object):
         # Handle response
         if 'json' == output_format or \
                 'pandas' == output_format:
-            return self._handle_json_response(response)
+            return self._handle_json_response(response.json())
         elif 'csv' == output_format:
             return self._handle_csv_response(response.text)
         else:
@@ -234,8 +234,9 @@ class AlphaVantage(object):
                     basic *= 2
                 
                 # Try again
-                json_response = self.session.get('', params=params).json()
-            return json_response
+                response = self.session.get('', params=params)
+                json_response = response.json()
+            return response
         
         except JSONDecodeError:
             return response

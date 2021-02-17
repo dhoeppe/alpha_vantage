@@ -59,7 +59,7 @@ class AlphaVantage(AlphaVantageBase):
         # Handle response
         if 'json' == output_format or \
                 'pandas' == output_format:
-            return self._handle_json_response(response)
+            return self._handle_json_response(await response.json())
         elif 'csv' == output_format:
             return self._handle_csv_response(await response.text())
         else:
@@ -100,8 +100,9 @@ class AlphaVantage(AlphaVantageBase):
                     basic *= 2
                 
                 # Try again
-                json_response = await(await self.session.get('', params=params)).json()
-            return json_response
+                response = await self.session.get('', params=params)
+                json_response = await response.json()
+            return response
         
         except JSONDecodeError:
             return response
