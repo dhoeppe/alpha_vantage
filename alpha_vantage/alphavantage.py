@@ -234,8 +234,9 @@ class AlphaVantage(object):
                     basic *= 2
                 
                 # Try again
-                json_response = self.session.get('', params=params).json()
-            return json_response
+                response = self.session.get('', params=params)
+                json_response = response.json()
+            return response
         
         except JSONDecodeError:
             return response

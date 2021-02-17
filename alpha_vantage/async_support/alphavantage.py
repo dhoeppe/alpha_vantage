@@ -100,8 +100,9 @@ class AlphaVantage(AlphaVantageBase):
                     basic *= 2
                 
                 # Try again
-                json_response = await(await self.session.get('', params=params)).json()
-            return json_response
+                response = await self.session.get('', params=params)
+                json_response = await response.json()
+            return response
         
         except JSONDecodeError:
             return response
