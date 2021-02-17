@@ -4,6 +4,7 @@ from functools import wraps
 # Pandas became an optional dependency, but we still want to track it
 from json.decoder import JSONDecodeError
 
+from errors.ratelimiterror import RateLimitError
 from helpers.asyncbaseurlsession import AsyncBaseURLSession
 from ..alphavantage import AlphaVantage as AlphaVantageBase
 
@@ -90,8 +91,7 @@ class AlphaVantage(AlphaVantageBase):
                                               json_response['Information']):
                 # Retry limit reached
                 if tries == self.rate_limit_maximum_tries:
-                    raise RuntimeError(
-                        'Maximum amount of retries reached while handling rate limit. Aborting.')
+                    raise RateLimitError('Maximum tries reached. Aborting.')
                 
                 # Rate limit reached
                 tries += 1
