@@ -1,6 +1,9 @@
+import random
+import time
 from functools import wraps
-
 # Pandas became an optional dependency, but we still want to track it
+from json.decoder import JSONDecodeError
+
 from helpers.asyncbaseurlsession import AsyncBaseURLSession
 from ..alphavantage import AlphaVantage as AlphaVantageBase
 
@@ -55,12 +58,53 @@ class AlphaVantage(AlphaVantageBase):
         # Handle response
         if 'json' == output_format or \
                 'pandas' == output_format:
-            return self._handle_json_response(await response.json())
+            return self._handle_json_response(response)
         elif 'csv' == output_format:
             return self._handle_csv_response(await response.text())
         else:
             raise NotImplementedError(
                 'Handling of data type {} is not yet supported.'.format(output_format))
+    
+    async def _rate_limit_handled_request(self, params):
+        """Checks if the response is a JSON response and contains rate-limiting related
+        information.
+        
+        Performs exponential back-off with added jitter up to a maximum wait time that is
+        equal to the rate_limit_maximum_wait parameter of class.
+        """
+        response = await self.session.get('', params=params)
+        try:
+            json_response = await response.json()
+            
+            # Rate limit times
+            jitter = random.randint(0, 32)
+            basic = 2
+            tries = 0
+            
+            while ('Note' in
+                   json_response and
+                   AlphaVantage._RATE_LIMIT_SUBSTRING in
+                   json_response['Note']) or ('Information' in
+                                              json_response and
+                                              AlphaVantage._PREMIUM_RATE_LIMIT_SUBSTRING in
+                                              json_response['Information']):
+                # Retry limit reached
+                if tries == self.rate_limit_maximum_tries:
+                    raise RuntimeError(
+                        'Maximum amount of retries reached while handling rate limit. Aborting.')
+                
+                # Rate limit reached
+                tries += 1
+                time.sleep(basic + jitter)
+                if basic < self.rate_limit_maximum_wait:
+                    basic *= 2
+                
+                # Try again
+                json_response = await(await self.session.get('', params=params)).json()
+            return json_response
+        
+        except JSONDecodeError:
+            return response
     
     class call_api_on_func(AlphaVantageBase.call_api_on_func):
         """Decorator for forming the API call with the arguments of the
