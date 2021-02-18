@@ -29,8 +29,7 @@ class AlphaVantage(object):
     _ALPHA_VANTAGE_DIGITAL_CURRENCY_LIST = \
         "https://www.alphavantage.co/digital_currency_list/"
     
-    _RATE_LIMIT_SUBSTRING = 'https://www.alphavantage.co/premium/'
-    _PREMIUM_RATE_LIMIT_SUBSTRING = 'premium@alphavantage.co'
+    _RATE_LIMIT_SUBSTRING = 'premium'
     
     _RAPIDAPI_URL = "https://alpha-vantage.p.rapidapi.com/query"
     
@@ -215,14 +214,11 @@ class AlphaVantage(object):
             jitter = random.randint(0, 32)
             basic = 2
             tries = 0
-            
-            while ('Note' in
-                   json_response and
-                   AlphaVantage._RATE_LIMIT_SUBSTRING in
-                   json_response['Note']) or ('Information' in
-                                              json_response and
-                                              AlphaVantage._PREMIUM_RATE_LIMIT_SUBSTRING in
-                                              json_response['Information']):
+
+            while (('Note' in json_response and (
+                    AlphaVantage._RATE_LIMIT_SUBSTRING in json_response['Note'])) or (
+                           'Information' in json_response and (
+                           AlphaVantage._RATE_LIMIT_SUBSTRING in json_response['Information']))):
                 # Retry limit reached
                 if tries == self.rate_limit_maximum_tries:
                     raise RateLimitError('Maximum tries reached. Aborting.')
