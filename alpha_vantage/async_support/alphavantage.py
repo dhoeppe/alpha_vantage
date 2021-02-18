@@ -82,13 +82,14 @@ class AlphaVantage(AlphaVantageBase):
             basic = 2
             tries = 0
             
-            while ('Note' in
-                   json_response and
-                   AlphaVantage._RATE_LIMIT_SUBSTRING in
-                   json_response['Note']) or ('Information' in
-                                              json_response and
-                                              AlphaVantage._PREMIUM_RATE_LIMIT_SUBSTRING in
-                                              json_response['Information']):
+            while ((('Note' in
+                     json_response) or
+                    ('Information' in
+                     json_response)) and
+                   ((AlphaVantage._RATE_LIMIT_SUBSTRING in
+                     json_response['Note']) or
+                    (AlphaVantage._RATE_LIMIT_SUBSTRING in
+                     json_response['Information']))):
                 # Retry limit reached
                 if tries == self.rate_limit_maximum_tries:
                     raise RateLimitError('Maximum tries reached. Aborting.')
