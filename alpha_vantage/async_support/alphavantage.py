@@ -1,6 +1,10 @@
+import random
+import time
 from functools import wraps
-
 # Pandas became an optional dependency, but we still want to track it
+from json.decoder import JSONDecodeError
+
+from errors.ratelimiterror import RateLimitError
 from helpers.asyncbaseurlsession import AsyncBaseURLSession
 from ..alphavantage import AlphaVantage as AlphaVantageBase
 
@@ -61,6 +65,44 @@ class AlphaVantage(AlphaVantageBase):
         else:
             raise NotImplementedError(
                 'Handling of data type {} is not yet supported.'.format(output_format))
+    
+    async def _rate_limit_handled_request(self, params):
+        """Checks if the response is a JSON response and contains rate-limiting related
+        information.
+        
+        Performs exponential back-off with added jitter up to a maximum wait time that is
+        equal to the rate_limit_maximum_wait parameter of class.
+        """
+        response = await self.session.get('', params=params)
+        try:
+            json_response = await response.json()
+            
+            # Rate limit times
+            jitter = random.randint(0, 32)
+            basic = 2
+            tries = 0
+
+            while (('Note' in json_response and (
+                    AlphaVantage._RATE_LIMIT_SUBSTRING in json_response['Note'])) or (
+                           'Information' in json_response and (
+                           AlphaVantage._RATE_LIMIT_SUBSTRING in json_response['Information']))):
+                # Retry limit reached
+                if tries == self.rate_limit_maximum_tries:
+                    raise RateLimitError('Maximum tries reached. Aborting.')
+                
+                # Rate limit reached
+                tries += 1
+                time.sleep(basic + jitter)
+                if basic < self.rate_limit_maximum_wait:
+                    basic *= 2
+                
+                # Try again
+                response = await self.session.get('', params=params)
+                json_response = await response.json()
+            return response
+        
+        except JSONDecodeError:
+            return response
     
     class call_api_on_func(AlphaVantageBase.call_api_on_func):
         """Decorator for forming the API call with the arguments of the
