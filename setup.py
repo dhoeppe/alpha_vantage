@@ -7,15 +7,15 @@ try:
     with open("README.md", "r") as fh:
         long_description = fh.read()
 except IOError:
-    long_description = 'Python module to get stock data from the Alpha Vantage Api'
+    long_description = 'Python module to get stock data from the Alpha Vantage API'
 
 setup(
-    name='alpha_vantage',
-    version='2.3.1',
+    name='dhoeppe/alpha_vantage',
+    version='2.4.0',
     author='Romel J. Torres',
     author_email='romel.torres@gmail.com',
     license='MIT',
-    description='Python module to get stock data from the Alpha Vantage Api',
+    description='Python module to get stock data from the Alpha Vantage API',
     long_description=long_description,
     long_description_content_type="text/markdown",
     classifiers=[
@@ -30,7 +30,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'
     ],
-    url='https://github.com/RomelTorres/alpha_vantage',
+    url='https://github.com/dhoeppe/alpha_vantage',
     install_requires=[
         'aiohttp',
         'requests'
@@ -44,7 +44,7 @@ setup(
         'pandas': ['pandas'],
     },
     keywords=['stocks', 'market', 'finance', 'alpha_vantage', 'quotes',
-              'shares'],
+              'shares', 'crypto', 'cryptocurrency'],
     packages=find_packages(
         exclude=['helpers', 'test_alpha_vantage', 'images']),
     package_data={

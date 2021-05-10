@@ -1,10 +1,10 @@
 # alpha_vantage
 
-[![Build Status](https://travis-ci.org/RomelTorres/alpha_vantage.png?branch=master)](https://travis-ci.org/RomelTorres/alpha_vantage)
+[![Build Status](https://github.com/dhoeppe/alpha_vantage/actions/workflows/python-package.yml/badge.svg)](https://github.com/dhoeppe/alpha_vantage)
 [![PyPI version](https://badge.fury.io/py/alpha-vantage.svg)](https://badge.fury.io/py/alpha-vantage)
-[![Documentation Status](https://readthedocs.org/projects/alpha-vantage/badge/?version=latest)](http://alpha-vantage.readthedocs.io/en/latest/?badge=latest)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/RomelTorres/alpha_vantage.svg)](http://isitmaintained.com/project/RomelTorres/alpha_vantage "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/RomelTorres/alpha_vantage.svg)](http://isitmaintained.com/project/RomelTorres/alpha_vantage "Percentage of issues still open")
+[![Documentation Status](https://readthedocs.org/projects/dhoeppealpha-vantage/badge/?version=latest)](http://dhoeppealpha-vantage.readthedocs.io/en/latest/?badge=latest)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/dhoeppe/alpha_vantage.svg)](http://isitmaintained.com/project/dhoeppe/alpha_vantage "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/dhoeppe/alpha_vantage.svg)](http://isitmaintained.com/project/dhoeppe/alpha_vantage "Percentage of issues still open")
 
 *Python module to get stock data/cryptocurrencies from the Alpha Vantage API*
 
@@ -14,6 +14,7 @@ For code-less access to the APIs, you may also consider the official [Google She
 
 ## News
 
+* From version 2.4.0 onwards, this fork is available on PyPI with many fixed issues and support for rate limiting. The accompanying pull request in the original repository can be found [here](https://github.com/RomelTorres/alpha_vantage/pull/297).
 * From version 2.3.0 onwards, fundamentals data and extended intraday is supported.
 * From version 2.2.0 onwards, asyncio support now provided. See below for more information. 
 * From version 2.1.3 onwards, [rapidAPI](https://rapidapi.com/alphavantage/api/alpha-vantage-alpha-vantage-default) key integration is now available.
@@ -25,16 +26,16 @@ For code-less access to the APIs, you may also consider the official [Google She
 ## Install
 To install the package use:
 ```shell
-pip install alpha_vantage
+pip install dhoeppe/alpha_vantage
 ```
 Or install with pandas support, simply install pandas too:
 ```shell
-pip install alpha_vantage pandas
+pip install dhoeppe/alpha_vantage pandas
 ```
 
 If you want to install from source, then use:
 ```shell
-git clone https://github.com/RomelTorres/alpha_vantage.git
+git clone https://github.com/dhoeppe/alpha_vantage.git
 pip install -e alpha_vantage
 ```
 
@@ -222,12 +223,6 @@ print(results)
 
 We have written a much more in depth article to explain asyncio for those who have never used it but want to learn about asyncio, concurrency, and multi-threading. Check it out here: [Which Should You Use: Asynchronous Programming or Multi-Threading?](https://medium.com/better-programming/which-should-you-use-asynchronous-programming-or-multi-threading-7435ec9adc8e?source=friends_link&sk=8c6c05c2bbc3666e9066547cb564c352)
 
-## Examples
-
-I have added a repository with examples in a python notebook to better see the
-usage of the library: https://github.com/RomelTorres/av_example
-
-
 ## Tests
 
 In order to run the tests you have to first export your API key so that the test can use it to run, also the tests require pandas, mock and nose.
@@ -238,7 +233,7 @@ nosetests
 ```
 
 ## Documentation
-The code documentation can be found at https://alpha-vantage.readthedocs.io/en/latest/
+The code documentation can be found at https://dhoeppealpha-vantage.readthedocs.io/en/latest/
 
 ## Contributing
 Contributing is always welcome. Just contact us on how best you can contribute, add an issue, or make a PR. 
@@ -247,9 +242,6 @@ Contributing is always welcome. Just contact us on how best you can contribute, 
 * The integration tests are not being run at the moment within travis, gotta fix them to run.
 * Add test for csv calls as well.
 * Add tests for incompatible parameter raise errors.
-* Github actions & other items in the issues page. 
-
-
 
 ## Contact:
 You can reach/follow the Alpha Vantage team on any of the following platforms:
@@ -263,5 +255,3 @@ You can reach/follow the Alpha Vantage team on any of the following platforms:
 
 ## Star if you like it.
 If you like or use this project, consider showing your support by starring it.
-
-:venezuela:-:de:
