@@ -5,9 +5,9 @@ name: Lint and run unit/integration tests
 
 on:
   push:
-    branches: [ publish ]
+    branches: [ dev, master ]
   pull_request:
-    branches: [ publish ]
+    branches: [ dev, master ]
 
 jobs:
   build:
