@@ -3,7 +3,7 @@ from .alphavantage import AlphaVantage as av
 
 class CryptoCurrencies(av):
     """This class implements all the crypto currencies API calls."""
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_digital_currency_daily(self, symbol, market):
@@ -21,7 +21,7 @@ class CryptoCurrencies(av):
         """
         _FUNCTION_KEY = 'DIGITAL_CURRENCY_DAILY'
         return _FUNCTION_KEY, 'Time Series (Digital Currency Daily)', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_digital_currency_weekly(self, symbol, market):
@@ -39,7 +39,7 @@ class CryptoCurrencies(av):
         """
         _FUNCTION_KEY = 'DIGITAL_CURRENCY_WEEKLY'
         return _FUNCTION_KEY, 'Time Series (Digital Currency Weekly)', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_digital_currency_monthly(self, symbol, market):
@@ -57,7 +57,7 @@ class CryptoCurrencies(av):
         """
         _FUNCTION_KEY = 'DIGITAL_CURRENCY_MONTHLY'
         return _FUNCTION_KEY, 'Time Series (Digital Currency Monthly)', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_digital_currency_exchange_rate(self, from_currency, to_currency):
@@ -73,7 +73,7 @@ class CryptoCurrencies(av):
         """
         _FUNCTION_KEY = 'CURRENCY_EXCHANGE_RATE'
         return _FUNCTION_KEY, 'Realtime Currency Exchange Rate', None
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_digital_crypto_rating(self, symbol):
