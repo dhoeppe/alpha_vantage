@@ -1,7 +1,7 @@
 # alpha_vantage
 
 [![Build Status](https://github.com/dhoeppe/alpha_vantage/actions/workflows/python-package.yml/badge.svg)](https://github.com/dhoeppe/alpha_vantage)
-[![PyPI version](https://badge.fury.io/py/alpha-vantage.svg)](https://badge.fury.io/py/alpha-vantage)
+[![PyPI version](https://badge.fury.io/py/dhoeppe-alpha-vantage.svg)](https://badge.fury.io/py/dhoeppe-alpha-vantage)
 [![Documentation Status](https://readthedocs.org/projects/dhoeppealpha-vantage/badge/?version=latest)](http://dhoeppealpha-vantage.readthedocs.io/en/latest/?badge=latest)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/dhoeppe/alpha_vantage.svg)](http://isitmaintained.com/project/dhoeppe/alpha_vantage "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/dhoeppe/alpha_vantage.svg)](http://isitmaintained.com/project/dhoeppe/alpha_vantage "Percentage of issues still open")
@@ -26,11 +26,11 @@ For code-less access to the APIs, you may also consider the official [Google She
 ## Install
 To install the package use:
 ```shell
-pip install dhoeppe/alpha_vantage
+pip install dhoeppe_alpha_vantage
 ```
 Or install with pandas support, simply install pandas too:
 ```shell
-pip install dhoeppe/alpha_vantage pandas
+pip install dhoeppe_alpha_vantage pandas
 ```
 
 If you want to install from source, then use:

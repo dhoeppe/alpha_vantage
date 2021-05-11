@@ -10,7 +10,7 @@ except IOError:
     long_description = 'Python module to get stock data from the Alpha Vantage API'
 
 setup(
-    name='dhoeppe/alpha_vantage',
+    name='dhoeppe_alpha_vantage',
     version='2.4.0',
     author='Romel J. Torres',
     author_email='romel.torres@gmail.com',
@@ -23,12 +23,10 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Office/Business :: Financial :: Investment',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8'
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9'
     ],
     url='https://github.com/dhoeppe/alpha_vantage',
     install_requires=[
