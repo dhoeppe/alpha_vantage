@@ -11,7 +11,7 @@ except IOError:
 
 setup(
     name='dhoeppe_alpha_vantage',
-    version='2.4.0',
+    version='2.4.2',
     author='Romel J. Torres',
     author_email='romel.torres@gmail.com',
     license='MIT',
