@@ -21,6 +21,7 @@ def make_async(f):
         coro = asyncio.coroutine(f)
         future = coro(*args, **kwargs)
         asyncio.get_event_loop().run_until_complete(future)
+
     return test_wrapper
 
 
@@ -61,7 +62,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         Test that api call returns a json file as requested
         """
         av = AlphaVantage(key=TestAlphaVantageAsync._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=test"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&apikey=test"
         params = {
             'function': 'TIME_SERIES_INTRADAY',
             'symbol': 'MSFT',
@@ -80,7 +82,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         Test that the rapidAPI key calls the rapidAPI endpoint
         """
         ts = TimeSeries(key=TestAlphaVantageAsync._API_KEY_TEST, rapidapi=True)
-        url = "https://alpha-vantage.p.rapidapi.com/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&datatype=json"
+        url = "https://alpha-vantage.p.rapidapi.com/query?function=TIME_SERIES_INTRADAY&symbol" \
+              "=MSFT&interval=1min&outputsize=full&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))
@@ -96,7 +99,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         Test that api call returns a json file as requested
         """
         ts = TimeSeries(key=TestAlphaVantageAsync._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))
@@ -113,7 +117,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         """
         ts = TimeSeries(key=TestAlphaVantageAsync._API_KEY_TEST,
                         output_format='pandas')
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))
@@ -130,7 +135,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         """
         ts = TimeSeries(key=TestAlphaVantageAsync._API_KEY_TEST,
                         output_format='pandas', indexing_type='date')
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))
@@ -149,7 +155,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         """
         ts = TimeSeries(key=TestAlphaVantageAsync._API_KEY_TEST,
                         output_format='pandas', indexing_type='integer')
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))
@@ -164,7 +171,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         Test that api call returns a json file as requested
         """
         ti = TechIndicators(key=TestAlphaVantageAsync._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min&time_period=10&series_type=close&apikey=test"
+        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min" \
+              "&time_period=10&series_type=close&apikey=test"
         path_file = self.get_file_from_url("mock_technical_indicator")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))
@@ -181,7 +189,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         """
         ti = TechIndicators(
             key=TestAlphaVantageAsync._API_KEY_TEST, output_format='pandas')
-        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min&time_period=10&series_type=close&apikey=test"
+        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min" \
+              "&time_period=10&series_type=close&apikey=test"
         path_file = self.get_file_from_url("mock_technical_indicator")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))
@@ -228,7 +237,8 @@ class TestAlphaVantageAsync(unittest.TestCase):
         Test that api call returns a json file as requested
         """
         fe = ForeignExchange(key=TestAlphaVantageAsync._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=CNY&apikey=test"
+        url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency" \
+              "=BTC&to_currency=CNY&apikey=test"
         path_file = self.get_file_from_url("mock_foreign_exchange")
         with open(path_file) as f, aioresponses() as m:
             m.get(url, payload=json.loads(f.read()))

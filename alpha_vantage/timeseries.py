@@ -3,7 +3,7 @@ from .alphavantage import AlphaVantage as av
 
 class TimeSeries(av):
     """This class implements all the api calls to times series"""
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_intraday(self, symbol, interval='15min', outputsize='compact'):
@@ -22,7 +22,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "TIME_SERIES_INTRADAY"
         return _FUNCTION_KEY, "Time Series ({})".format(interval), 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func('csv')
     def get_intraday_extended(self, symbol, interval='15min', slice='year1month1', adjusted=True):
@@ -36,13 +36,13 @@ class TimeSeries(av):
                 (default '15min')
             slice: the trailing 2 years of intraday data is evenly divided into
                 24 "slices" - year1month1, year1month2, ..., year2month12
-            adjusted: By default, adjusted=true and the output time series is 
-                adjusted by historical split and dividend events. 
+            adjusted: By default, adjusted=true and the output time series is
+                adjusted by historical split and dividend events.
                 Set adjusted=false to query raw (as-traded) intraday values.
         """
         _FUNCTION_KEY = "TIME_SERIES_INTRADAY_EXTENDED"
         return _FUNCTION_KEY, None, None
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_daily(self, symbol, outputsize='compact'):
@@ -58,7 +58,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "TIME_SERIES_DAILY"
         return _FUNCTION_KEY, 'Time Series (Daily)', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_daily_adjusted(self, symbol, outputsize='compact'):
@@ -76,7 +76,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "TIME_SERIES_DAILY_ADJUSTED"
         return _FUNCTION_KEY, 'Time Series (Daily)', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_weekly(self, symbol):
@@ -89,7 +89,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "TIME_SERIES_WEEKLY"
         return _FUNCTION_KEY, 'Weekly Time Series', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_weekly_adjusted(self, symbol):
@@ -103,7 +103,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "TIME_SERIES_WEEKLY_ADJUSTED"
         return _FUNCTION_KEY, 'Weekly Adjusted Time Series', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_monthly(self, symbol):
@@ -116,7 +116,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "TIME_SERIES_MONTHLY"
         return _FUNCTION_KEY, 'Monthly Time Series', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_monthly_adjusted(self, symbol):
@@ -129,7 +129,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "TIME_SERIES_MONTHLY_ADJUSTED"
         return _FUNCTION_KEY, 'Monthly Adjusted Time Series', 'Meta Data'
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_quote_endpoint(self, symbol):
@@ -142,7 +142,7 @@ class TimeSeries(av):
         """
         _FUNCTION_KEY = "GLOBAL_QUOTE"
         return _FUNCTION_KEY, 'Global Quote', None
-    
+
     @av.output_format()
     @av.call_api_on_func()
     def get_symbol_search(self, keywords):

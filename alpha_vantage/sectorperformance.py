@@ -5,7 +5,7 @@ from .alphavantage import AlphaVantage as av
 class SectorPerformances(av):
     """This class implements all the sector performance api calls
     """
-    
+
     def __init__(self, *args, **kwargs):
         """
         Inherit AlphaVantage base class with its default arguments
@@ -16,7 +16,7 @@ class SectorPerformances(av):
             raise ValueError(
                 "Output format {} is not compatible with the SectorPerformances class".format(
                     self.output_format.lower()))
-    
+
     @av.output_format(formatting='sector')
     @av.call_api_on_func()
     def get_sector(self):

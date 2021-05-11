@@ -16,7 +16,6 @@ from ..alpha_vantage.timeseries import TimeSeries
 
 
 class TestAlphaVantage(unittest.TestCase):
-
     _API_KEY_TEST = "test"
     _API_EQ_NAME_TEST = 'MSFT'
 
@@ -48,7 +47,8 @@ class TestAlphaVantage(unittest.TestCase):
         """ Test that api call returns a json file as requested
         """
         av = AlphaVantage(key=TestAlphaVantage._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=test"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&apikey=test"
         params = {
             'function': 'TIME_SERIES_INTRADAY',
             'symbol': 'MSFT',
@@ -65,7 +65,8 @@ class TestAlphaVantage(unittest.TestCase):
         """ Test that the rapidAPI key calls the rapidAPI endpoint
         """
         ts = TimeSeries(key=TestAlphaVantage._API_KEY_TEST, rapidapi=True)
-        url = "https://alpha-vantage.p.rapidapi.com/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&datatype=json"
+        url = "https://alpha-vantage.p.rapidapi.com/query?function=TIME_SERIES_INTRADAY&symbol" \
+              "=MSFT&interval=1min&outputsize=full&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
@@ -79,7 +80,8 @@ class TestAlphaVantage(unittest.TestCase):
         """ Test that api call returns a json file as requested
         """
         ts = TimeSeries(key=TestAlphaVantage._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
@@ -94,7 +96,8 @@ class TestAlphaVantage(unittest.TestCase):
         """
         ts = TimeSeries(key=TestAlphaVantage._API_KEY_TEST,
                         output_format='pandas')
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
@@ -109,7 +112,8 @@ class TestAlphaVantage(unittest.TestCase):
         """
         ts = TimeSeries(key=TestAlphaVantage._API_KEY_TEST,
                         output_format='pandas', indexing_type='date')
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
@@ -120,8 +124,6 @@ class TestAlphaVantage(unittest.TestCase):
             else:
                 if sys.version_info[0] == 3:
                     assert isinstance(data.index[0], str)
-                else:
-                    assert isinstance(data.index[0], basestring)
 
     @requests_mock.Mocker()
     def test_time_series_intraday_date_integer(self, mock_request):
@@ -129,7 +131,8 @@ class TestAlphaVantage(unittest.TestCase):
         """
         ts = TimeSeries(key=TestAlphaVantage._API_KEY_TEST,
                         output_format='pandas', indexing_type='integer')
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&outputsize=full&apikey=test&datatype=json"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT" \
+              "&interval=1min&outputsize=full&apikey=test&datatype=json"
         path_file = self.get_file_from_url("mock_time_series")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
@@ -142,21 +145,23 @@ class TestAlphaVantage(unittest.TestCase):
         """ Test that api call returns a csv-reader as requested
         """
         ts = TimeSeries(key=TestAlphaVantage._API_KEY_TEST, output_format='csv')
-        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=MSFT&interval=1min&slice=year1month1&adjusted=True&apikey=test&datatype=csv"
+        url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol" \
+              "=MSFT&interval=1min&slice=year1month1&adjusted=True&apikey=test&datatype=csv"
         path_file = self.get_file_from_url("mock_time_series_extended")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
             data, _ = ts.get_intraday_extended(
                 "MSFT", interval='1min')
             self.assertIsInstance(
-              data, collections.Iterator, 'Result Data must implement Iterator-interface')
+                data, collections.Iterator, 'Result Data must implement Iterator-interface')
 
     @requests_mock.Mocker()
     def test_technical_indicator_sma_python3(self, mock_request):
         """ Test that api call returns a json file as requested
         """
         ti = TechIndicators(key=TestAlphaVantage._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min&time_period=10&series_type=close&apikey=test"
+        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min" \
+              "&time_period=10&series_type=close&apikey=test"
         path_file = self.get_file_from_url("mock_technical_indicator")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
@@ -171,7 +176,8 @@ class TestAlphaVantage(unittest.TestCase):
         """
         ti = TechIndicators(
             key=TestAlphaVantage._API_KEY_TEST, output_format='pandas')
-        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min&time_period=10&series_type=close&apikey=test"
+        url = "https://www.alphavantage.co/query?function=SMA&symbol=MSFT&interval=15min" \
+              "&time_period=10&series_type=close&apikey=test"
         path_file = self.get_file_from_url("mock_technical_indicator")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())
@@ -212,7 +218,8 @@ class TestAlphaVantage(unittest.TestCase):
         """ Test that api call returns a json file as requested
         """
         fe = ForeignExchange(key=TestAlphaVantage._API_KEY_TEST)
-        url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=CNY&apikey=test"
+        url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency" \
+              "=BTC&to_currency=CNY&apikey=test"
         path_file = self.get_file_from_url("mock_foreign_exchange")
         with open(path_file) as f:
             mock_request.get(url, text=f.read())

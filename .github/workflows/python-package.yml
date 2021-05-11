@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [2.7, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8, 3.9]
 
     steps:
     - uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install flake8 requests requests-mock pandas numpy
+        python -m pip install flake8 requests requests-mock pandas numpy nose
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
@@ -40,4 +40,7 @@ jobs:
         nosetests --nocapture test_alpha_vantage/test_alphavantage.py
     - name: Run integration tests with nosetests
       run: |
-        nosetests --nocapture nosetests -s test_alpha_vantage/test_integration_alphavantage.py
+        nosetests --nocapture test_alpha_vantage/test_integration_alphavantage.py
+      env:
+        API_KEY: test
+        RAPIDAPI_KEY: ${{secret.TEST_RAPIDAPI_KEY}}
