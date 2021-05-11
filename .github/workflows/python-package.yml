@@ -43,4 +43,4 @@ jobs:
         nosetests --nocapture test_alpha_vantage/test_integration_alphavantage.py
       env:
         API_KEY: test
-        RAPIDAPI_KEY: ${{secret.TEST_RAPIDAPI_KEY}}
+        RAPIDAPI_KEY: ${{secrets.TEST_RAPIDAPI_KEY}}
