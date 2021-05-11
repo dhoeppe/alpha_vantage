@@ -6,8 +6,8 @@ import time
 from functools import wraps
 from json.decoder import JSONDecodeError
 
-from alpha_vantage.errors.ratelimiterror import RateLimitError
-from alpha_vantage.helpers.baseurlsession import BaseURLSession
+from .errors.ratelimiterror import RateLimitError
+from .helpers.baseurlsession import BaseURLSession
 
 try:
     import pandas
