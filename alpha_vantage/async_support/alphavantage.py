@@ -3,9 +3,9 @@ import time
 from functools import wraps
 from json.decoder import JSONDecodeError
 
-from alpha_vantage.errors import RateLimitError
-from alpha_vantage.helpers import AsyncBaseURLSession
 from ..alphavantage import AlphaVantage as AlphaVantageBase
+from ..errors.ratelimiterror import RateLimitError
+from ..helpers.asyncbaseurlsession import AsyncBaseURLSession
 
 
 class AlphaVantage(AlphaVantageBase):

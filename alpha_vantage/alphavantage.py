@@ -6,7 +6,6 @@ import time
 from functools import wraps
 from json.decoder import JSONDecodeError
 
-# Pandas became an optional dependency, but we still want to track it
 from alpha_vantage.errors.ratelimiterror import RateLimitError
 from alpha_vantage.helpers.baseurlsession import BaseURLSession
 
