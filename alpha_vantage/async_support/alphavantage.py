@@ -3,8 +3,8 @@ import time
 from functools import wraps
 from json.decoder import JSONDecodeError
 
-from errors.ratelimiterror import RateLimitError
-from helpers.asyncbaseurlsession import AsyncBaseURLSession
+from alpha_vantage.errors import RateLimitError
+from alpha_vantage.helpers import AsyncBaseURLSession
 from ..alphavantage import AlphaVantage as AlphaVantageBase
 
 

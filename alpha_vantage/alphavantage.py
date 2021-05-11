@@ -6,10 +6,9 @@ import time
 from functools import wraps
 from json.decoder import JSONDecodeError
 
-from errors.ratelimiterror import RateLimitError
-from helpers.baseurlsession import BaseURLSession
-
 # Pandas became an optional dependency, but we still want to track it
+from alpha_vantage.errors.ratelimiterror import RateLimitError
+from alpha_vantage.helpers.baseurlsession import BaseURLSession
 
 try:
     import pandas
@@ -218,7 +217,7 @@ class AlphaVantage(object):
             while (('Note' in json_response and (
                     AlphaVantage._RATE_LIMIT_SUBSTRING in json_response['Note'])) or (
                            'Information' in json_response and (
-                            AlphaVantage._RATE_LIMIT_SUBSTRING in json_response['Information']))):
+                           AlphaVantage._RATE_LIMIT_SUBSTRING in json_response['Information']))):
                 # Retry limit reached
                 if tries == self.rate_limit_maximum_tries:
                     raise RateLimitError('Maximum tries reached. Aborting.')
@@ -311,7 +310,7 @@ class AlphaVantage(object):
             else:
                 raise ValueError("Output format: {} not recognized, only 'json',"
                                  "'pandas' and 'csv' are supported".format(
-                                  self.output_format.lower()))
+                    self.output_format.lower()))
 
             if self._append_type:
                 params['datatype'] = oformat if cls.override is None else cls.override
@@ -462,7 +461,7 @@ class AlphaVantage(object):
 
             if 'json' == api_format:
                 return cls._handle_call_response_json_api(self, data_key, meta_data_key,
-                                                           call_response, output_format)
+                                                          call_response, output_format)
             elif 'csv' == api_format:
                 return cls._handle_call_response_csv_api(self, output_format, call_response)
 
